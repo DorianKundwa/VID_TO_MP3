@@ -290,14 +290,52 @@ def serve_index():
     return {"message": "SonicStrip API is running. Static frontend not yet compiled."}
 
 
+def find_available_port(start_port: int = 8000, host: str = "127.0.0.1", max_attempts: int = 100) -> int:
+    """Finds the first available TCP port on host starting from start_port."""
+    import socket
+    for port in range(start_port, start_port + max_attempts):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind((host, port))
+                return port
+            except OSError:
+                continue
+    return start_port
+
+
 if __name__ == "__main__":
-    import uvicorn
+    import argparse
+    import time
     import webbrowser
     import threading
+    import uvicorn
 
-    def open_browser():
-        time.sleep(1.2)
-        webbrowser.open("http://127.0.0.1:8000")
+    parser = argparse.ArgumentParser(description="SonicStrip Video-to-Audio Studio Server")
+    parser.add_argument("--host", default="127.0.0.1", help="Host address to bind (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=None, help="Port to bind (default: auto-detected starting at 8000)")
+    parser.add_argument("--no-browser", action="store_true", help="Do not automatically open the web browser")
+    args = parser.parse_args()
 
-    threading.Thread(target=open_browser, daemon=True).start()
-    uvicorn.run("server:app", host="127.0.0.1", port=8000, reload=True)
+    host = args.host
+    default_port = int(os.environ.get("PORT", 8000))
+    if args.port is not None:
+        port = args.port
+    else:
+        port = find_available_port(start_port=default_port, host=host)
+        if port != default_port:
+            print(f"[NOTICE] Port {default_port} is already in use by another process.")
+            print(f"[OK] Automatically selected available port: {port}")
+
+    url = f"http://{host}:{port}"
+    print(f"Starting local high-speed engine on {url} ...")
+    print(f"Opening browser at {url}")
+
+    if not args.no_browser:
+        def open_browser():
+            time.sleep(1.2)
+            webbrowser.open(url)
+
+        threading.Thread(target=open_browser, daemon=True).start()
+
+    uvicorn.run("server:app", host=host, port=port, reload=False)
+

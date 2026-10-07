@@ -21,15 +21,17 @@ An ultra-lightweight, blazing-fast, and beautiful desktop-class web app to extra
 ## 🚀 Quick Start (Web App)
 
 ### 1. Launch with One Click
-Double-click `run.bat` on Windows. It will start the server and open your browser automatically at:
+Double-click `run.bat` on Windows. It will automatically check for an open port (defaulting to 8000, or finding 8001+ if 8000 is in use), start the engine, and launch your browser automatically:
 ```
-http://127.0.0.1:8000
+http://127.0.0.1:8000 (or http://127.0.0.1:8001 if 8000 is busy)
 ```
 
 ### 2. Manual Terminal Launch
 ```bash
 python server.py
-# or
+# or custom port:
+python server.py --port 8080
+# or direct uvicorn:
 python -m uvicorn server:app --host 127.0.0.1 --port 8000
 ```
 
