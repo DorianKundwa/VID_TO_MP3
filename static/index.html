@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SonicStrip | Lightning-Fast Video to Audio Extractor</title>
+  <meta name="description" content="Ultra-lightweight and lightning-fast local video to audio converter with batch processing, MP3/WAV/AAC/FLAC transcoding, lossless stream copy, and in-browser waveform playback.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18V5l12-2v13"></path>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="16" r="3"></circle>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Sonic<span class="gradient-text">Strip</span></div>
+          <div class="brand-tagline">Lightning-Fast Video to Audio Studio</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="status-badge" id="system-status-badge">
+          <span class="status-pulse"></span>
+          <span id="system-status-text">FFmpeg Engine Ready</span>
+        </div>
+        <button id="btn-open-folder" class="btn-subtle" title="Open output directory in Windows Explorer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Open Folder</span>
+        </button>
+        <button id="btn-clear-all" class="btn-subtle" title="Clear temporary files and output history">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Clear History</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="app-container">
+
+      <!-- Hero Introduction Banner -->
+      <section class="hero-section">
+        <h1 class="hero-heading">
+          Extract Crystal Audio from <span class="gradient-text">Any Video</span> in Seconds
+        </h1>
+        <p class="hero-subheading">
+          100% Offline & Private • Zero Compression Loss Option • Multi-Core FFmpeg Powered • Batch Processing Ready
+        </p>
+      </section>
+
+      <!-- Conversion Settings Panel -->
+      <section class="settings-card" id="conversion-settings-panel">
+        <div class="settings-header">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Extraction Settings</span>
+          </div>
+
+          <!-- Ultra-Fast Stream Copy Switch -->
+          <div class="stream-copy-toggle" id="stream-copy-container" title="Extract original audio without re-encoding in under 0.5s">
+            <label class="switch-container">
+              <input type="checkbox" id="chk-stream-copy">
+              <span class="switch-slider"></span>
+            </label>
+            <div class="toggle-label-wrap">
+              <span class="toggle-title">⚡ Ultra-Fast Stream Copy</span>
+              <span class="toggle-sub">Instant 0.2s extraction, 100% lossless</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <!-- Target Audio Format Selector -->
+          <div class="setting-item" id="format-selection-group">
+            <label class="setting-label">Target Format</label>
+            <div class="format-pills" id="format-pills-list">
+              <button type="button" class="format-pill active" data-format="mp3" id="format-btn-mp3">
+                <span class="pill-name">MP3</span>
+                <span class="pill-tag">Universal</span>
+              </button>
+              <button type="button" class="format-pill" data-format="wav" id="format-btn-wav">
+                <span class="pill-name">WAV</span>
+                <span class="pill-tag">Lossless</span>
+              </button>
+              <button type="button" class="format-pill" data-format="m4a" id="format-btn-m4a">
+                <span class="pill-name">M4A</span>
+                <span class="pill-tag">Apple/AAC</span>
+              </button>
+              <button type="button" class="format-pill" data-format="aac" id="format-btn-aac">
+                <span class="pill-name">AAC</span>
+                <span class="pill-tag">Efficient</span>
+              </button>
+              <button type="button" class="format-pill" data-format="flac" id="format-btn-flac">
+                <span class="pill-name">FLAC</span>
+                <span class="pill-tag">Hi-Fi</span>
+              </button>
+              <button type="button" class="format-pill" data-format="ogg" id="format-btn-ogg">
+                <span class="pill-name">OGG</span>
+                <span class="pill-tag">Vorbis</span>
+              </button>
+              <button type="button" class="format-pill" data-format="opus" id="format-btn-opus">
+                <span class="pill-name">OPUS</span>
+                <span class="pill-tag">Pro</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bitrate Selector -->
+          <div class="setting-item" id="bitrate-selection-group">
+            <div class="setting-label-row">
+              <label class="setting-label" for="select-bitrate">Audio Quality & Bitrate</label>
+              <span class="setting-hint" id="bitrate-hint">Maximum clarity</span>
+            </div>
+            <div class="bitrate-options" id="bitrate-options-list">
+              <button type="button" class="bitrate-btn active" data-bitrate="320k" id="bitrate-btn-320">320 kbps (Studio)</button>
+              <button type="button" class="bitrate-btn" data-bitrate="256k" id="bitrate-btn-256">256 kbps (High)</button>
+              <button type="button" class="bitrate-btn" data-bitrate="192k" id="bitrate-btn-192">192 kbps (Standard)</button>
+              <button type="button" class="bitrate-btn" data-bitrate="128k" id="bitrate-btn-128">128 kbps (Compact)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Trimming Expandable Accordion -->
+        <div class="trim-accordion">
+          <button type="button" class="trim-accordion-header" id="btn-toggle-trim">
+            <div class="trim-header-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="6" cy="6" r="3"></circle>
+                <circle cx="6" cy="18" r="3"></circle>
+                <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+              </svg>
+              <span>Trim Audio Segment (Optional)</span>
+            </div>
+            <svg class="chevron-icon" id="trim-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="trim-accordion-body" id="trim-accordion-body">
+            <div class="trim-inputs-row">
+              <div class="trim-field">
+                <label for="input-trim-start">Start Time (seconds or 00:00)</label>
+                <input type="text" id="input-trim-start" placeholder="00:00" class="app-input">
+              </div>
+              <div class="trim-field">
+                <label for="input-trim-end">End Time (seconds or 00:00)</label>
+                <input type="text" id="input-trim-end" placeholder="Leave empty for full" class="app-input">
+              </div>
+            </div>
+            <p class="trim-help">Leave empty to convert the entire video without cutting.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Drag & Drop Upload Zone -->
+      <section class="dropzone-section">
+        <div class="dropzone" id="file-dropzone" tabindex="0" role="button" aria-label="Drop video files here or click to browse">
+          <input type="file" id="file-input" multiple accept="video/*,.mp4,.mkv,.avi,.mov,.webm,.flv,.wmv,.m4v,.ts" class="file-input-hidden">
+          
+          <div class="dropzone-content">
+            <div class="dropzone-icon-ring">
+              <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <h2 class="dropzone-title">Drop your video files here</h2>
+            <p class="dropzone-subtitle">or <span class="highlight-link">browse files</span> from your computer</p>
+            <div class="dropzone-badges">
+              <span class="format-tag">MP4</span>
+              <span class="format-tag">MKV</span>
+              <span class="format-tag">MOV</span>
+              <span class="format-tag">WEBM</span>
+              <span class="format-tag">AVI</span>
+              <span class="format-tag">Batch Supported</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active File Queue & Batch Action Bar -->
+      <section class="queue-section" id="queue-section" style="display: none;">
+        <div class="queue-header">
+          <div class="queue-title-wrap">
+            <h3 class="queue-heading">Selected Videos (<span id="queue-count">0</span>)</h3>
+            <span class="queue-total-size" id="queue-total-size">0 MB</span>
+          </div>
+          <div class="queue-actions">
+            <button type="button" class="btn-secondary" id="btn-clear-queue">Clear Queue</button>
+            <button type="button" class="btn-primary" id="btn-start-convert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span id="btn-convert-label">Convert to Audio</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Global Progress Bar -->
+        <div class="global-progress-card" id="global-progress-card" style="display: none;">
+          <div class="progress-info">
+            <span class="progress-task-label" id="progress-task-label">Converting videos...</span>
+            <span class="progress-percentage" id="progress-percentage">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- File List -->
+        <div class="file-list" id="file-queue-list"></div>
+      </section>
+
+      <!-- Results & Converted Audio Showcase -->
+      <section class="results-section" id="results-section" style="display: none;">
+        <div class="results-header">
+          <div class="results-title-wrap">
+            <div class="badge-success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Ready for Listening & Download</span>
+            </div>
+            <h3 class="results-heading">Converted Audio Tracks</h3>
+          </div>
+          <div class="results-batch-actions" id="batch-actions-bar" style="display: none;">
+            <a href="#" id="btn-download-all-zip" class="btn-accent" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Download All as ZIP</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Audio Cards Container -->
+        <div class="audio-cards-grid" id="audio-cards-container"></div>
+      </section>
+
+      <!-- Feature Grid Information Strip -->
+      <section class="features-section">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h4 class="feature-title">Ultra-Fast Stream Copy</h4>
+          <p class="feature-desc">Extract native audio tracks in 0.2 seconds with bit-for-bit lossless precision.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h4 class="feature-title">100% Offline & Private</h4>
+          <p class="feature-desc">All conversions occur locally on your machine. No data leaves your computer.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎚️</div>
+          <h4 class="feature-title">Pro Audio Transcoding</h4>
+          <p class="feature-desc">Convert to MP3 (up to 320 kbps), WAV, AAC, M4A, FLAC, and OGG with full channel preservation.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h4 class="feature-title">Batch & ZIP Export</h4>
+          <p class="feature-desc">Queue up multiple video files at once and download everything in a convenient single ZIP package.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-copy">SonicStrip • High Performance Video to Audio Engine</div>
+      <div class="footer-stats" id="footer-engine-info">Powered by local FFmpeg 6.0</div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
