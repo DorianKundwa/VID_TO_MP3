@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+output_audio/
+temp_uploads/
+.env
+.venv/
+env/
+venv/
+*.log
+.DS_Store
+Thumbs.db
